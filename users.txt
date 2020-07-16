@@ -18,4 +18,3 @@ geeber@yahoo.com, k8x6V7bw, Willard Phillips, normal_user
 haddawy@comcast.net, A6XErUme, Vera Hammond, normal_user
 harryh@yahoo.com, 5nUy9Zap, Rosa Pearson, normal_user
 imightb@yahoo.ca, Uec8Zv8t, Essie Walsh, normal_user
-a@a.com, asdfasdf, Amber Park, super_user

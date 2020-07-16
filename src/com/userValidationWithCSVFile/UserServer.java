@@ -99,9 +99,8 @@ public class UserServer {
 				System.out.println("(4) Exit");
 				selectedElement = intSelection.nextInt();
 
-
 			}
-			System.out.println("Welcome: " + isValidated.getName());
+
 			if (selectedElement == 0) {
 				String usernameUpdate = loginNewUser();
 				UserLogin userUpdate = userService.switchUser(users, usernameUpdate);
@@ -111,18 +110,16 @@ public class UserServer {
 				} else {
 					isValidated = userUpdate;
 				}
+				System.out.println("Welcome: " + isValidated.getName());
 			}
 
 			else if (selectedElement == 1) {
 				updateUsername(isValidated);
-			}
-			else if (selectedElement == 2) {
+			} else if (selectedElement == 2) {
 				updatePassword(isValidated);
-			}
-			else if (selectedElement == 3) {
+			} else if (selectedElement == 3) {
 				updateName(isValidated);
-			}
-			else if (selectedElement == 4) {
+			} else if (selectedElement == 4) {
 				System.out.println("User application terminated");
 //				exit(isValidated);
 			}
@@ -133,14 +130,12 @@ public class UserServer {
 			Arrays.sort(users);
 			Set<BufferedWriter> set = new HashSet<BufferedWriter>();
 			for (UserLogin user : users) {
-				if(set.add(writer))
-				writer.write(userService.updateUser(user));
+				if (set.add(writer))
+					writer.write(userService.updateUser(user));
 			}
-			
-			
+
 		} finally {
 			if (writer != null)
-				writer.flush();
 				writer.close();
 		}
 
@@ -159,8 +154,8 @@ public class UserServer {
 		System.out.println("Please type in your new username:");
 		String username = userInput.nextLine();
 		isValidated.setUsername(username);
-		
-	} 
+
+	}
 
 	public static void updatePassword(UserLogin isValidated) {
 		System.out.println("Please type in your new password:");
@@ -177,5 +172,6 @@ public class UserServer {
 
 //	public static void exit(UserLogin isValidated) {
 //		System.out.println("User application terminated");
+//		break;
 //	}
 }
