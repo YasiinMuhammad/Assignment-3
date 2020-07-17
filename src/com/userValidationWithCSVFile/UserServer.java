@@ -34,7 +34,7 @@ public class UserServer {
 				user.setName(userData[2]);
 				user.setRole(userData[3]);
 				users[i] = user;
-				System.out.println(users[i]);
+//				System.out.println(users[i]);
 				i++;
 
 			}
@@ -90,6 +90,7 @@ public class UserServer {
 				System.out.println("(3) Update name");
 				System.out.println("(4) Exit");
 				selectedElement = intSelection.nextInt();
+				
 
 			} else if (isValidated != null && " normal_user".equals(isValidated.getRole())) {
 				System.out.println("Please choose from the following options:");
@@ -121,16 +122,18 @@ public class UserServer {
 				updateName(isValidated);
 			} else if (selectedElement == 4) {
 				System.out.println("User application terminated");
-//				exit(isValidated);
 			}
 		}
 		BufferedWriter writer = null;
 		try {
-			writer = new BufferedWriter(new FileWriter("users.txt", true));
+			writer = new BufferedWriter(new FileWriter("users.txt", false));
 			Arrays.sort(users);
 			Set<BufferedWriter> set = new HashSet<BufferedWriter>();
 			for (UserLogin user : users) {
-				if (set.add(writer))
+				if (!set.add(writer)) {
+					set.remove(writer);
+					set.add(writer);
+				}
 					writer.write(userService.updateUser(user));
 			}
 
@@ -170,8 +173,4 @@ public class UserServer {
 
 	}
 
-//	public static void exit(UserLogin isValidated) {
-//		System.out.println("User application terminated");
-//		break;
-//	}
 }

@@ -42,8 +42,11 @@ public class UserLogin implements Comparable<UserLogin> {
 
 	@Override
 	public int compareTo(UserLogin that) {
-
-		return 0;
+		int comparison = that.getRole().compareTo(this.getRole());
+		if (comparison == 0) {
+			comparison = that.getUsername().compareTo(this.getUsername());
+		}
+		return comparison;
 	}
 
 }
