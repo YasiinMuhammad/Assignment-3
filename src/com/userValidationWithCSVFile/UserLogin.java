@@ -12,7 +12,7 @@ public class UserLogin implements Comparable<UserLogin> {
 	}
 
 	public void setUsername(String username) {
-		this.username = username;
+		this.username = username; 
 	}
 
 	public String getPassword() {
