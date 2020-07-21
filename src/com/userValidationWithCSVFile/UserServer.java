@@ -7,9 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
+
 
 public class UserServer {
 	static UserService userService = new UserService();
@@ -27,7 +26,7 @@ public class UserServer {
 			String line = null;
 			dataReader = new BufferedReader(new FileReader("users.txt"));
 			while ((line = dataReader.readLine()) != null) {
-				String[] userData = line.split(",");
+				String[] userData = line.split(", ");
 				UserLogin user = new UserLogin();
 				user.setUsername(userData[0]);
 				user.setPassword(userData[1]);
@@ -55,9 +54,9 @@ public class UserServer {
 		}
 		UserLogin isValidated = null;
 
-		boolean successfulLogin = false;
+		boolean successfullLogin = false;
 		int loginAttemps = 0;
-		while (loginAttemps < 5 && !successfulLogin) {
+		while (loginAttemps < 5 && !successfullLogin) {
 			System.out.println("Enter your email: ");
 			username = userInput.nextLine();
 
@@ -68,7 +67,7 @@ public class UserServer {
 
 			if (isValidated != null) {
 				System.out.println("Welcome: " + isValidated.getName());
-				successfulLogin = true;
+				successfullLogin = true;
 			} else {
 				System.out.println("Invalid login, please try again.");
 				loginAttemps++;
@@ -77,32 +76,23 @@ public class UserServer {
 				}
 			}
 		}
-		Scanner intSelection = new Scanner(System.in);
-		int selectedElement = 0;
-		while (selectedElement != 4) {
-
-			if (isValidated != null && " super_user".equals(isValidated.getRole())) {
-
-				System.out.println("Please choose from the following options:");
-				System.out.println("(0) Login as another user");
-				System.out.println("(1) Update username");
-				System.out.println("(2) Update password");
-				System.out.println("(3) Update name");
-				System.out.println("(4) Exit");
-				selectedElement = intSelection.nextInt();
+		if (successfullLogin) {
+			Scanner intSelection = new Scanner(System.in);
+			int selectedElement = 0;
+			while (selectedElement != 4) {
 				
-
-			} else if (isValidated != null && " normal_user".equals(isValidated.getRole())) {
 				System.out.println("Please choose from the following options:");
+				if ("super_user".equals(isValidated.getRole())) {
+					System.out.println("(0) Login as another user");
+				}
 				System.out.println("(1) Update username");
 				System.out.println("(2) Update password");
 				System.out.println("(3) Update name");
 				System.out.println("(4) Exit");
+
 				selectedElement = intSelection.nextInt();
 
-			}
-
-			if (selectedElement == 0) {
+			if (selectedElement == 0 && "super_user".equals(isValidated.getRole())) {
 				String usernameUpdate = loginNewUser();
 				UserLogin userUpdate = userService.switchUser(users, usernameUpdate);
 
@@ -128,13 +118,9 @@ public class UserServer {
 		try {
 			writer = new BufferedWriter(new FileWriter("users.txt", false));
 			Arrays.sort(users);
-			Set<BufferedWriter> set = new HashSet<BufferedWriter>();
 			for (UserLogin user : users) {
-				if (!set.add(writer)) {
-					set.remove(writer);
-					set.add(writer);
-				}
-					writer.write(userService.updateUser(user));
+				
+				writer.write(userService.updateUser(user));
 			}
 
 		} finally {
@@ -142,31 +128,33 @@ public class UserServer {
 				writer.close();
 		}
 
-		userInput.close();
 		intSelection.close();
+	}
+
+	userInput.close();
 
 	}
 
-	public static String loginNewUser() {
+	private static String loginNewUser() {
 		System.out.println("Which user would you like to login as? (Type in a valid username)");
 		String usernameUpdate = userInput.nextLine();
 		return usernameUpdate;
 	}
 
-	public static void updateUsername(UserLogin isValidated) {
+	private static void updateUsername(UserLogin isValidated) {
 		System.out.println("Please type in your new username:");
 		String username = userInput.nextLine();
 		isValidated.setUsername(username);
 
 	}
 
-	public static void updatePassword(UserLogin isValidated) {
+	private static void updatePassword(UserLogin isValidated) {
 		System.out.println("Please type in your new password:");
 		String password = userInput.nextLine();
 		isValidated.setPassword(password);
 	}
 
-	public static void updateName(UserLogin isValidated) {
+	private static void updateName(UserLogin isValidated) {
 		System.out.println("Please type in your new name:");
 		String name = userInput.nextLine();
 		isValidated.setName(name);
